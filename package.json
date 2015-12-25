@@ -1,0 +1,23 @@
+{
+  "name": "uploadimage",
+  "version": "1.0.0",
+  "description": "A simple demo for upload images",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NanaMorse/uploadImage.git"
+  },
+  "author": "Morse",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NanaMorse/uploadImage/issues"
+  },
+  "homepage": "https://github.com/NanaMorse/uploadImage#readme"
+}
