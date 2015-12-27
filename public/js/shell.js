@@ -11,19 +11,29 @@ define(function(require, exports, module){
 
     // 绑定事件
     function bindPageEvent(){
+        // input内容改变事件
         jqueryMap.uploadFileBtn.bind("change", function(e){
-            var i, file,
+            var i, file, fileReader,
+                results = [],
                 files = e.target.files,
-                fileReader;
-            for(i = 0; (file = files[i++]) != null; ){
+                count = files.length;
+            for(i = 0; (file = files[i]) != null; i++){
                 fileReader = new FileReader();
                 fileReader.readAsDataURL(file);
-                fileReader.onload = function(e){
-                    console.log(e);
-                }
+                (function(i){
+                    fileReader.onload = function(e){
+                        results[i] = e.target.result;
+                        count--;
+                        if(count === 0){
+                            // 在此处将结果传递给modal模块，用于显示modal框，确认图片上传
+                            console.log(results);
+                        }
+                    }
+                })(i);
             }
         });
     }
+    
 
     module.exports = {
         "init" : init
