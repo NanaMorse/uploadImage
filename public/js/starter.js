@@ -19,7 +19,7 @@ seajs.use("js/shell", function(shell){
 * shell.js：进行页面事件绑定与数据统筹操作，提供init方法
 * jqueryMap.js: 获取并缓存页面DOM对象对应的jQuery对象，后期根据HTML功能模块进行目录细分
 * modal.js: 在页面中展示一个模态框，提供基本的操作API诸如填充数据、启动、设置控件事件、隐藏等等
-* uploader.js : 将数据上传至服务器，提供的api与jquery.ajax保持一致即可
+* service.js : ajax服务接口
 * */
 
 

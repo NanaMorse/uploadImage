@@ -5,7 +5,7 @@ define(function(require, exports, module){
     "use strict";
     // 获取缓存的jquery对象
     var jqueryMap = require("./jqueryMap"),
-        uploader = require("./uploader");
+        service = require("./service");
 
     function init(){
         bindPageEvent();
@@ -23,7 +23,6 @@ define(function(require, exports, module){
                 fileReader = new FileReader();
                 fileReader.readAsDataURL(file);
                 fileName = file.name;
-                console.log(file);
                 (function(i, fileName){
                     fileReader.onload = function(e){
                         results[i] = {
@@ -36,13 +35,25 @@ define(function(require, exports, module){
                             resetInputFile(jqueryMap.uploadFileBtn[0]);
                             //todo 在此处将结果传递给modal模块，用于显示modal框，确认图片上传
                             // 直接启动上传
-                            uploader.postImageData({
-                                "imageData" : results
+                            service.postImageData({
+                                "imagesData" : results
+                            }, function(data){
+                                console.log(data);
                             });
                         }
                     }
                 })(i, fileName);
             }
+        });
+
+        // 功能号按钮1的点击事件
+        jqueryMap.function001Btn.bind("click", function(){
+            var param = {
+                "userName" : "morse"
+            };
+            service.function001(param, function(data){
+                console.log(data);
+            });
         });
     }
 

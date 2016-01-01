@@ -5,6 +5,9 @@ define(function (require, exports, module) {
 
     module.exports = {
         // 上传文件的输入按钮
-        "uploadFileBtn" : $("#uploadFile")
+        "uploadFileBtn" : $("#uploadFile"),
+
+        // 功能号按钮001
+        "function001Btn" : $("#function001Btn")
     };
 });
