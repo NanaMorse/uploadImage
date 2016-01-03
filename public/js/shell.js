@@ -4,7 +4,8 @@
 define(function(require, exports, module){
     "use strict";
     // 获取缓存的jquery对象
-    var jqueryMap = require("./jqueryMap"),
+    var $ = require("jQuery"),
+        jqueryMap = require("./jqueryMap"),
         service = require("./service");
 
     function init(){
@@ -15,19 +16,19 @@ define(function(require, exports, module){
     function bindPageEvent(){
         // input内容改变事件
         jqueryMap.uploadFileBtn.bind("change", function(e){
-            var i, file, fileReader, fileName,
+            var fileReader, fileName,
                 results = [],
                 files = e.target.files,
                 count = files.length;
-            for(i = 0; (file = files[i]) != null; i++){
+            $.each(files, function(index, file){
                 fileReader = new FileReader();
-                fileReader.readAsDataURL(file);
                 fileName = file.name;
+                fileReader.readAsDataURL(file);
                 (function(i, fileName){
                     fileReader.onload = function(e){
                         results[i] = {
                             "fileName" : fileName,
-                            "dataUrl" : e.target.result.split(",")[1]
+                            "data" : e.target.result.split(",")[1]
                         };
                         count--;
                         if(count === 0){
@@ -42,8 +43,8 @@ define(function(require, exports, module){
                             });
                         }
                     }
-                })(i, fileName);
-            }
+                })(index, fileName);
+            });
         });
 
         // 功能号按钮1的点击事件
@@ -60,7 +61,7 @@ define(function(require, exports, module){
     // 重置input
     function resetInputFile(file){
         file.value = "";
-        // 在IE11以下中无法清除input内容
+        // 在IE11以下中无法清除input.value
         if(file.value){
             var fakeFrom = document.createElement("form"),
                 realForm = file.parentNode,
