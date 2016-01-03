@@ -4,6 +4,7 @@
 // 002功能号处理函数
 // 保存上传的图片到本地
 var fs = require("fs");
+var util = require("../../lib/util");
 
 module.exports = function(param, res){
     // 开始保存图片
@@ -27,23 +28,29 @@ module.exports = function(param, res){
  * @param callback Function 回调函数
 * */
 function savingImagesData(receiveData, dst, callback){
-    var i, imgInfo, data, fileName,
-        count = receiveData.length;
-    for(i = 0; (imgInfo = receiveData[i]) != null; i++){
-        dst = dst ? dst : "";
-        data = imgInfo.data;
-        fileName = imgInfo.fileName;
-        (function(fileName){
-            fs.writeFile((dst ? dst : "") + fileName, data, "base64", function(err){
-                if(err) throw err;
-                else {
-                    console.log(fileName + "已存储至" + (dst ? dst : "当前目录") + "下。");
-                    count = count - 1;
-                    if(count === 0){
-                        callback();
-                    }
-                }
-            });
-        })(fileName);
-    }
+    var count = receiveData.length;
+    dst = dst ? dst : "./";
+    fs.existsSync(dst) || fs.mkdirSync(dst);
+    util.each(receiveData, function(index, imgItem){
+        savingSingleImage(dst + imgItem.fileName, imgItem.data, "base64", function(){
+            count--;
+            if(count === 0 && typeof callback === "function"){
+                callback();
+            }
+        });
+    });
 }
+
+function savingSingleImage(path, data, type, callback){
+    fs.writeFile(path, data, type, function(err){
+        if(err){
+            throw err;
+        }else{
+            console.log(path + "已存储完毕");
+            if(typeof callback === "function"){
+                callback();
+            }
+        }
+    });
+}
+
